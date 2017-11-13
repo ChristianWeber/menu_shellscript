@@ -20,26 +20,26 @@
 	read opcao
 	case $opcao in
 		1) 
-		     echo "Voce escolheu atualizar o Sistema"
+		     echo "Você escolheu: Atualizar o Sistema e Lista de pacotes"
 	     	     sudo apt-get update -y && sudo apt-get update -y	     	
 		    ;;
 		2) 
 		     #notas: cria um usuário "falso", ou seja, não adiciona um diretorio home.
-		     echo "Voce escolheu criar um novo Usuário"
+		     echo "Você escolheu: Criar um novo Usuário"
 		     echo "Qual o nome desse usuário?"
-		     read newuser
-		     sudo useradd --no-create-home -s /bin/false $newuser
+		      read NEWUSER
+		     sudo useradd --no-create-home -s /bin/false $NEWUSER
 		     if [ "$?" -eq 0 ]; then 
-			     echo "Usuario criado com sucesso"
+			     echo "Usuário criado com sucesso"
 		     else
-			     echo "Usuario não criado"
+			     echo "Usuário não criado"
 		     fi
 		    ;;
 		3) 
-		     echo "Voce escolheu criar um novo grupo"
+		     echo "Você escolheu: Criar um novo grupo"
 		     echo "Qual o nome do grupo?"
-		     read newgrupo
-		     sudo addgroup $newgrupo
+		      read NEWGROUP
+		     sudo addgroup $NEWGROUP
 		     if [ "$?" -eq 0 ]; then
 			     echo "Grupo criado com sucesso"
 		     else
@@ -47,36 +47,41 @@
 		     fi
 		    ;;
 		4)
-		     echo "Adicionar usuário ao samba e Colocar uma senha"
+		     echo "Você escolheu: Adicionar usuário ao samba e colocar uma senha"
 		     echo "Qual usuário?"
-		     read nomeuser
-		     sudo smbpasswd -a $nomeuser
+		      read USERSMB
+		     sudo smbpasswd -a $USERSMB
+		     if [ "$?" -eq 0 ]; then
+			     echo "Usuário adicionado com Sucesso"
+		     else
+			     echo "Usuário não adicionado"
+		     fi
 		    ;;
 		5)
-		     #nota: pode ser substituido por systemctl 
-			echo "O que deseja fazer [1]-Reiniciar [2]-Parar [3]-Iniciar"
-		     read stat
+		     #nota: pode ser substituído por systemctl 
+		     echo "O que deseja fazer [1]-Reiniciar [2]-Parar [3]-Iniciar"
+		      read STAT
 		     echo "Qual serviço?"
-		     read serv
+		      read SERV
 	        
-		     case $stat in
-			     1) stat1=restart ;;
-			     2) stat1=stop ;;     
-			     3) stat1=start ;;
+		     case $STAT in
+			     1) STAT1=restart ;;
+			     2) STAT1=stop ;;     
+			     3) STAT1=start ;;
 		     esac     
-		     sudo /etc/init.d/$serv $stat1
+		     sudo /etc/init.d/$SERV $STAT1
 		   ;;    
 	        6)   
 		     echo "Você escolheu adicionar um usuário a determinado grupo"
 		     echo "Qual usuário"
-		     read gpUser
+		     read GPUSER
 		     echo "Em qual grupo?"
-		     read usGroup
-		     adduser $gpUser $usGroup
-		     echo "O usuário $gpUser entrou no grupo $usGroup"
+		     read USGROUP
+		     adduser $GPUSER $USGROUP
+		     echo "O usuário $GPUSER entrou no grupo $USGROUP"
 		    ;;
                 9) exit  ;;
-	    	*) "Opção invalida" ;; 
+	    	*) "Opção inválida" ;; 
 	esac
 
 
